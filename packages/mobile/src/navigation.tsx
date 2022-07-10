@@ -97,6 +97,10 @@ import {
 import { BlurredBottomTabBar } from "./components/bottom-tabbar";
 import { UnlockScreen } from "./screens/unlock";
 import { KeplrVersionScreen } from "./screens/setting/screens/version";
+import {
+  SettingAddTokenScreen,
+  SettingManageTokensScreen,
+} from "./screens/setting/screens/token";
 import { ManageWalletConnectScreen } from "./screens/manage-wallet-connect";
 import {
   ImportFromExtensionIntroScreen,
@@ -105,7 +109,10 @@ import {
 } from "./screens/register/import-from-extension";
 import {
   OsmosisWebpageScreen,
+  OsmosisFrontierWebpageScreen,
   StargazeWebpageScreen,
+  UmeeWebpageScreen,
+  JunoswapWebpageScreen,
 } from "./screens/web/webpages";
 import { WebpageScreenScreenOptionsPreset } from "./screens/web/components/webpage-screen";
 import Bugsnag from "@bugsnag/react-native";
@@ -205,6 +212,12 @@ const {
     "Setting.ChainList": {
       upperScreenName: "ChainList",
     },
+    "Setting.AddToken": {
+      upperScreenName: "Others",
+    },
+    "Setting.ManageTokens": {
+      upperScreenName: "Others",
+    },
     AddressBook: {
       upperScreenName: "AddressBooks",
     },
@@ -229,7 +242,16 @@ const {
     "Web.Osmosis": {
       upperScreenName: "Web",
     },
+    "Web.OsmosisFrontier": {
+      upperScreenName: "Web",
+    },
     "Web.Stargaze": {
+      upperScreenName: "Web",
+    },
+    "Web.Umee": {
+      upperScreenName: "Web",
+    },
+    "Web.Junoswap": {
       upperScreenName: "Web",
     },
   }).withParams<{
@@ -506,6 +528,8 @@ export const RegisterNavigation: FunctionComponent = () => {
 export const OtherNavigation: FunctionComponent = () => {
   const style = useStyle();
 
+  const navigation = useNavigation();
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -635,6 +659,29 @@ export const OtherNavigation: FunctionComponent = () => {
         }}
         name="TxFailedResult"
         component={TxFailedResultScreen}
+      />
+      <Stack.Screen
+        options={{
+          title: "Add Token",
+        }}
+        name="Setting.AddToken"
+        component={SettingAddTokenScreen}
+      />
+      <Stack.Screen
+        options={{
+          title: "Manage Tokens",
+          headerRight: () => (
+            <HeaderRightButton
+              onPress={() => {
+                navigation.navigate("Setting.AddToken");
+              }}
+            >
+              <HeaderAddIcon />
+            </HeaderRightButton>
+          ),
+        }}
+        name="Setting.ManageTokens"
+        component={SettingManageTokensScreen}
       />
     </Stack.Navigator>
   );
@@ -767,7 +814,13 @@ export const WebNavigation: FunctionComponent = () => {
         component={WebScreen}
       />
       <Stack.Screen name="Web.Osmosis" component={OsmosisWebpageScreen} />
+      <Stack.Screen
+        name="Web.OsmosisFrontier"
+        component={OsmosisFrontierWebpageScreen}
+      />
       <Stack.Screen name="Web.Stargaze" component={StargazeWebpageScreen} />
+      <Stack.Screen name="Web.Umee" component={UmeeWebpageScreen} />
+      <Stack.Screen name="Web.Junoswap" component={JunoswapWebpageScreen} />
     </Stack.Navigator>
   );
 };
